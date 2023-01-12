@@ -1,10 +1,10 @@
 package main
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"gitlab.com/fish895623/golangr/tes"
 	"gorm.io/gorm"
 )
 
@@ -40,8 +40,8 @@ func main() {
 			Name string `json:"data"`
 		}
 		c.BindJSON(&url)
-		fmt.Print(url.Name)
 		c.JSON(http.StatusOK, &url)
+		ma.Hello()
 	})
 
 	router.Run()
