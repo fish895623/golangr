@@ -1,4 +1,4 @@
-module github.com/fish895623/testing
+module gitlab.com/fish895623/golangr
 
 go 1.19
 
