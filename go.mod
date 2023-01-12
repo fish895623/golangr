@@ -1,4 +1,4 @@
-module github.com/fish895623/testing
+module github.com/fish895623/testings
 
 go 1.19
 
