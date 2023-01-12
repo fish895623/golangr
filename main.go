@@ -9,22 +9,22 @@ import (
 	"gorm.io/gorm"
 )
 
-var router *gin.Engine
-
-func setupConfig() {
+func setupConfig(router *gin.Engine) *gin.Engine {
 	router = gin.Default()
 	router.SetTrustedProxies([]string{"192.168.0.2"})
-
 	router.LoadHTMLGlob("templates/*")
 	router.Static("/static", "./static")
 	router.StaticFile("/favicon.ico", "./favicon.ico")
+
+	return router
 }
 
 func main() {
 	var db *gorm.DB
 	db = ma.InitDb(db)
 
-	setupConfig()
+	var router *gin.Engine
+	router = setupConfig(router)
 
 	a := router.Group("/a")
 	a.GET("/", func(c *gin.Context) {
