@@ -14,10 +14,6 @@ type Product struct {
 	Price uint
 }
 
-type Body struct {
-	Name string `json:"data"`
-}
-
 var router *gin.Engine
 
 func main() {
@@ -40,10 +36,12 @@ func main() {
 		)
 	})
 	router.POST("/api", func(c *gin.Context) {
-		body := Body{}
-		fmt.Println(body)
-		c.BindJSON(&body)
-		c.JSON(http.StatusAccepted, &body)
+		var url struct {
+			Name string `json:"data"`
+		}
+		c.BindJSON(&url)
+		fmt.Print(url.Name)
+		c.JSON(http.StatusOK, &url)
 	})
 
 	router.Run()
