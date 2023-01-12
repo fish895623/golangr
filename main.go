@@ -9,22 +9,22 @@ import (
 	"gorm.io/gorm"
 )
 
-type Product struct {
-	gorm.Model
-	Code  string
-	Price uint
-}
-
 var router *gin.Engine
 
-func main() {
-
+func setupConfig() {
 	router = gin.Default()
 	router.SetTrustedProxies([]string{"192.168.0.2"})
 
 	router.LoadHTMLGlob("templates/*")
 	router.Static("/static", "./static")
 	router.StaticFile("/favicon.ico", "./favicon.ico")
+}
+
+func main() {
+	var db *gorm.DB
+	db = ma.InitDb(db)
+
+	setupConfig()
 
 	a := router.Group("/a")
 	a.GET("/", func(c *gin.Context) {
@@ -43,7 +43,6 @@ func main() {
 		c.BindJSON(&url)
 		c.JSON(http.StatusOK, &url)
 		fmt.Print(url.Name)
-		ma.Hello()
 	})
 
 	router.Run()
