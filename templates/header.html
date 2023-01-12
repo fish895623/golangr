@@ -17,6 +17,7 @@
       crossorigin="anonymous"
     ></script>
     <script src="https://cdn.ckeditor.com/ckeditor5/35.4.0/classic/ckeditor.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   </head>
 
   <body class="container">
@@ -31,9 +32,10 @@
         myEditor = editor;
       });
       function send() {
-        fetch("/api", {
+        axios({
+          url: "/api",
           method: "POST",
-          body: {
+          data: {
             data: myEditor.getData(),
           },
         });

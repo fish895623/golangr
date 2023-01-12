@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -41,6 +42,7 @@ func main() {
 		}
 		c.BindJSON(&url)
 		c.JSON(http.StatusOK, &url)
+		fmt.Print(url.Name)
 		ma.Hello()
 	})
 
