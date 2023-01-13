@@ -4,9 +4,9 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"gitlab.com/fish895623/golangr/filemanage"
 	ma "gitlab.com/fish895623/golangr/tes"
 
-	filemanage "gitlab.com/fish895623/oolangr/filemanage"
 	"gorm.io/gorm"
 )
 
