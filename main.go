@@ -21,11 +21,13 @@ func setupConfig(router *gin.Engine) *gin.Engine {
 
 func hello() gin.HandlerFunc {
 	return func(c *gin.Context) {
+		a := c.Param("a")
 		c.HTML(
 			http.StatusOK,
 			"header.html",
 			gin.H{
 				"title": "Home Page",
+				"a":     a,
 			},
 		)
 	}
@@ -56,9 +58,8 @@ func main() {
 	var router *gin.Engine = gin.Default()
 	router = setupConfig(router)
 
-	a := router.Group("/a")
-	a.GET("/", hello())
+	router.GET("/:a", hello())
 	router.POST("/api", api())
 
-	router.Run()
+	router.Run(":8081")
 }
