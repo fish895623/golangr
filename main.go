@@ -2,6 +2,7 @@ package main
 
 import (
 	"net/http"
+	"os"
 
 	"github.com/gin-gonic/gin"
 	ma "gitlab.com/fish895623/golangr/tes"
@@ -29,14 +30,32 @@ func hello() gin.HandlerFunc {
 	}
 }
 
+type D struct {
+	Load bool   `json:"load"`
+	Data string `json:"data"`
+}
+
 func api() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		var url struct {
-			Name string `json:"data"`
-		}
+		url := D{}
 		c.BindJSON(&url)
+		if url.Load {
+			url.Data = readfile()
+		} else {
+			writefile(url.Data)
+		}
 		c.JSON(http.StatusOK, &url)
 	}
+}
+
+func readfile() string {
+	dat, _ := os.ReadFile("./write")
+	return string(dat)
+}
+
+func writefile(a string) {
+	data := []byte(a)
+	os.WriteFile("./write", data, 0644)
 }
 
 func main() {
