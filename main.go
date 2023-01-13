@@ -2,10 +2,11 @@ package main
 
 import (
 	"net/http"
-	"os"
 
 	"github.com/gin-gonic/gin"
 	ma "gitlab.com/fish895623/golangr/tes"
+
+	filemanage "gitlab.com/fish895623/oolangr/filemanage"
 	"gorm.io/gorm"
 )
 
@@ -40,22 +41,12 @@ func api() gin.HandlerFunc {
 		url := D{}
 		c.BindJSON(&url)
 		if url.Load {
-			url.Data = readfile()
+			url.Data = filemanage.Readfile()
 		} else {
-			writefile(url.Data)
+			filemanage.Writefile(url.Data)
 		}
 		c.JSON(http.StatusOK, &url)
 	}
-}
-
-func readfile() string {
-	dat, _ := os.ReadFile("./write")
-	return string(dat)
-}
-
-func writefile(a string) {
-	data := []byte(a)
-	os.WriteFile("./write", data, 0644)
 }
 
 func main() {
