@@ -13,7 +13,8 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
     crossorigin="anonymous"></script>
-  <script src="https://cdn.ckeditor.com/ckeditor5/35.4.0/balloon/ckeditor.js"></script>
+  <!-- <script src="https://cdn.ckeditor.com/ckeditor5/35.4.0/balloon/ckeditor.js"></script> -->
+  <script src="/static/js/build/ckeditor.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.1.2/chart.min.js"
     integrity="sha512-fYE9wAJg2PYbpJPxyGcuzDSiMuWJiw58rKa9MWQICkAqEO+xeJ5hg5qPihF8kqa7tbgJxsmgY0Yp51+IMrSEVg=="
@@ -32,7 +33,43 @@
   </div>
 
 
-  <script src='/static/js/ckeditor.js'></script>
+  <script>
+    window.onload = () => {
+      get();
+    };
+
+    var myEditor;
+    const editor = document.querySelector("#classic");
+
+    BalloonBlockEditor.create(editor)
+      .then((editor) => {
+        myEditor = editor;
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    function send() {
+      axios({
+        url: "/api",
+        method: "POST",
+        data: {
+          load: false,
+          data: myEditor.getData(),
+        },
+      });
+    }
+    function get() {
+      axios({
+        url: "/api",
+        method: "POST",
+        data: {
+          load: true,
+        },
+      }).then((req) => {
+        myEditor.setData(req.data.data);
+      });
+    }
+  </script>
 </body>
 
 </html>
