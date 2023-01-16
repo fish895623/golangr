@@ -10,27 +10,13 @@ import (
 	"gorm.io/gorm"
 )
 
-func setupConfig(router *gin.Engine) *gin.Engine {
-	router.SetTrustedProxies([]string{"192.168.0.2"})
-	router.LoadHTMLGlob("templates/*")
+func SetUpRouter() *gin.Engine {
+	router := gin.Default()
+	router.SetTrustedProxies([]string{"127.0.0.1"})
 	router.Static("/static", "./static")
 	router.StaticFile("/favicon.ico", "./favicon.ico")
 
 	return router
-}
-
-func hello() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		a := c.Param("a")
-		c.HTML(
-			http.StatusOK,
-			"header.html",
-			gin.H{
-				"title": "Home Page",
-				"a":     a,
-			},
-		)
-	}
 }
 
 type D struct {
@@ -55,11 +41,11 @@ func main() {
 	var db *gorm.DB
 	db = ma.InitDb(db)
 
-	var router *gin.Engine = gin.Default()
-	router = setupConfig(router)
+	router := SetUpRouter()
 
-	router.GET("/:a", hello())
-	router.POST("/api", api())
+	router.GET("/", func(c *gin.Context) {
+		c.String(http.StatusOK, "hello %s", "hello")
+	})
 
 	router.Run(":8081")
 }
