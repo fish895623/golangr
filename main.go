@@ -11,12 +11,12 @@ import (
 )
 
 func SetUpRouter() *gin.Engine {
-	router := gin.Default()
-	router.SetTrustedProxies([]string{"127.0.0.1"})
-	router.Static("/static", "./static")
-	router.StaticFile("/favicon.ico", "./favicon.ico")
+	r := gin.Default()
+	r.SetTrustedProxies([]string{"127.0.0.1"})
+	r.Static("/static", "./static")
+	r.StaticFile("/favicon.ico", "./favicon.ico")
 
-	return router
+	return r
 }
 
 type D struct {
@@ -37,15 +37,19 @@ func api() gin.HandlerFunc {
 	}
 }
 
+func aa() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		c.String(http.StatusOK, "hello %s", "hello")
+	}
+}
+
 func main() {
 	var db *gorm.DB
 	db = ma.InitDb(db)
 
-	router := SetUpRouter()
+	r := SetUpRouter()
 
-	router.GET("/", func(c *gin.Context) {
-		c.String(http.StatusOK, "hello %s", "hello")
-	})
+	r.GET("/", aa())
 
-	router.Run(":8081")
+	r.Run(":8081")
 }
