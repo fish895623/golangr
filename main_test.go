@@ -11,6 +11,8 @@ import (
 
 func TestPingRoute(t *testing.T) {
 	rPath := "/user"
+
+	gin.SetMode(gin.TestMode)
 	router := gin.Default()
 	router.GET(rPath, func(c *gin.Context) {
 		c.String(http.StatusOK, "hello %s", "hello")
