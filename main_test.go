@@ -3,13 +3,14 @@ package main_test
 import (
 	"net/http"
 	"net/http/httptest"
+	"strings"
 	"testing"
 
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
 )
 
-func DefaultSetup(rPath string, a gin.HandlerFunc) (*gin.Engine, *http.Request, error) {
+func DefaultGetSetup(rPath string, a gin.HandlerFunc) (*gin.Engine, *http.Request, error) {
 
 	gin.SetMode(gin.TestMode)
 	router := gin.Default()
@@ -18,9 +19,17 @@ func DefaultSetup(rPath string, a gin.HandlerFunc) (*gin.Engine, *http.Request, 
 
 	return router, req, err
 }
+func DefaultPostSetup(rPath string, a gin.HandlerFunc, str string) (*gin.Engine, *http.Request, error) {
+	gin.SetMode(gin.TestMode)
+	router := gin.Default()
+	router.GET(rPath, a)
+	req, err := http.NewRequest("POST", rPath, strings.NewReader(str))
+
+	return router, req, err
+}
 
 func TestPingRoute(t *testing.T) {
-	router, req, _ := DefaultSetup("/user",
+	router, req, _ := DefaultGetSetup("/user",
 		func(c *gin.Context) {
 			c.String(http.StatusOK, "hello %s", "hello")
 		},
