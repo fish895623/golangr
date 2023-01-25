@@ -9,15 +9,22 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestPingRoute(t *testing.T) {
-	rPath := "/user"
+func DefaultSetup(rPath string, a gin.HandlerFunc) (*gin.Engine, *http.Request, error) {
 
 	gin.SetMode(gin.TestMode)
 	router := gin.Default()
-	router.GET(rPath, func(c *gin.Context) {
-		c.String(http.StatusOK, "hello %s", "hello")
-	})
-	req, _ := http.NewRequest("GET", rPath, nil)
+	router.GET(rPath, a)
+	req, err := http.NewRequest("GET", rPath, nil)
+
+	return router, req, err
+}
+
+func TestPingRoute(t *testing.T) {
+	router, req, _ := DefaultSetup("/user",
+		func(c *gin.Context) {
+			c.String(http.StatusOK, "hello %s", "hello")
+		},
+	)
 
 	w := httptest.NewRecorder()
 	router.ServeHTTP(w, req)

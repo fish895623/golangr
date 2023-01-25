@@ -12,9 +12,6 @@ import (
 
 func SetUpRouter() *gin.Engine {
 	r := gin.Default()
-	r.SetTrustedProxies([]string{"127.0.0.1"})
-	r.Static("/static", "./static")
-	r.StaticFile("/favicon.ico", "./favicon.ico")
 
 	return r
 }
@@ -44,6 +41,8 @@ func aa() gin.HandlerFunc {
 }
 
 func main() {
+	gin.SetMode(gin.ReleaseMode)
+
 	var db *gorm.DB
 	db = ma.InitDb(db)
 
