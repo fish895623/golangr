@@ -3,9 +3,9 @@ package main
 import (
 	"net/http"
 
+	"github.com/fish895623/golangr/filemanage"
+	ma "github.com/fish895623/golangr/tes"
 	"github.com/gin-gonic/gin"
-	"gitlab.com/fish895623/golangr/filemanage"
-	ma "gitlab.com/fish895623/golangr/tes"
 
 	"gorm.io/gorm"
 )
