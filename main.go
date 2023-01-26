@@ -40,8 +40,15 @@ func aa() gin.HandlerFunc {
 	}
 }
 
+func Hello() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		body := D{}
+		c.BindJSON(&body)
+	}
+}
+
 func main() {
-	gin.SetMode(gin.ReleaseMode)
+	gin.SetMode(gin.DebugMode)
 
 	var db *gorm.DB
 	db = ma.InitDb(db)
@@ -49,6 +56,7 @@ func main() {
 	r := SetUpRouter()
 
 	r.GET("/", aa())
+	r.POST("/a", Hello())
 
 	r.Run(":8081")
 }
