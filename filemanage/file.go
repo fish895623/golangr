@@ -16,9 +16,7 @@ func CheckFileExists() bool {
 }
 
 func CreateFile() {
-	if _, e := os.Create("../data/write"); e != nil {
-		panic(e)
-	}
+	os.Create("../data/write")
 }
 
 func Writefile(a string) {
