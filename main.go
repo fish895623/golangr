@@ -11,7 +11,7 @@ func main() {
 	r := gin.Default()
 
 	r.GET("/", ma.Aa())
-	r.POST("/a", ma.Hello())
+	r.POST("/", ma.Hello())
 
 	r.Run(":8081")
 }
