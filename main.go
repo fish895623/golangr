@@ -3,11 +3,7 @@ package main
 import (
 	"net/http"
 
-	"github.com/fish895623/golangr/filemanage"
-	ma "github.com/fish895623/golangr/tes"
 	"github.com/gin-gonic/gin"
-
-	"gorm.io/gorm"
 )
 
 func SetUpRouter() *gin.Engine {
@@ -19,19 +15,6 @@ func SetUpRouter() *gin.Engine {
 type D struct {
 	Load bool   `json:"load"`
 	Data string `json:"data"`
-}
-
-func api() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		url := D{}
-		c.BindJSON(&url)
-		if url.Load {
-			url.Data = filemanage.Readfile()
-		} else {
-			filemanage.Writefile(url.Data)
-		}
-		c.JSON(http.StatusOK, &url)
-	}
 }
 
 func aa() gin.HandlerFunc {
@@ -49,9 +32,6 @@ func Hello() gin.HandlerFunc {
 
 func main() {
 	gin.SetMode(gin.DebugMode)
-
-	var db *gorm.DB
-	db = ma.InitDb(db)
 
 	r := SetUpRouter()
 
