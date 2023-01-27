@@ -19,6 +19,8 @@ func CreateFile() {
 	os.Create("../data/write")
 }
 
+func DeleteFile() bool { return true }
+
 func Writefile(a string) {
 	if !CheckFileExists() {
 		CreateFile()
